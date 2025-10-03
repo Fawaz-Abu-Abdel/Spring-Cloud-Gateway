@@ -52,7 +52,7 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-The application will start on `http://localhost:8080`
+The application will start on `http://localhost:8087`
 You can set the admin username and password in `application.yml`:
 
 ```yaml
@@ -69,7 +69,7 @@ spring:
 
 Access the web-based route management interface at:
 ```
-http://localhost:8080/admin/routes
+http://localhost:8087/admin/routes
 ```
 
 From here you can:
@@ -102,17 +102,17 @@ The application provides REST endpoints for programmatic access:
 
 #### Get All Routes
 ```bash
-GET http://localhost:8080/api/routes
+GET http://localhost:8087/api/routes
 ```
 
 #### Get Route by ID
 ```bash
-GET http://localhost:8080/api/routes/{routeId}
+GET http://localhost:8087/api/routes/{routeId}
 ```
 
 #### Create New Route
 ```bash
-POST http://localhost:8080/api/routes
+POST http://localhost:8087/api/routes
 Content-Type: application/json
 
 {
@@ -141,7 +141,7 @@ Content-Type: application/json
 
 #### Update Route
 ```bash
-PUT http://localhost:8080/api/routes/{routeId}
+PUT http://localhost:8087/api/routes/{routeId}
 Content-Type: application/json
 
 {
@@ -153,7 +153,7 @@ Content-Type: application/json
 
 #### Delete Route
 ```bash
-DELETE http://localhost:8080/api/routes/{routeId}
+DELETE http://localhost:8087/api/routes/{routeId}
 ```
 
 ## Common Predicates
@@ -190,7 +190,7 @@ Key configuration in `application.yml`:
 
 ```yaml
 server:
-  port: 8080
+  port: 8087
 
 spring:
   application:
@@ -259,9 +259,9 @@ gateway/
 
 Access Spring Boot Actuator endpoints:
 
-- Gateway routes: `http://localhost:8080/actuator/gateway/routes`
-- Health: `http://localhost:8080/actuator/health`
-- Info: `http://localhost:8080/actuator/info`
+- Gateway routes: `http://localhost:8087/actuator/gateway/routes`
+- Health: `http://localhost:8087/actuator/health`
+- Info: `http://localhost:8087/actuator/info`
 
 ## Tips
 
@@ -278,7 +278,7 @@ Access Spring Boot Actuator endpoints:
 - Check logs for any errors
 
 ### Web UI not accessible
-- Ensure the application is running on port 8080
+- Ensure the application is running on port 8087
 - Check if another application is using the port
 
 ### Changes not reflecting

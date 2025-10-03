@@ -12,7 +12,7 @@ The application has been successfully created and is now running!
 
 ### Web Interface (Thymeleaf UI)
 
-* **URL**: [http://localhost:8080/admin/routes](http://localhost:8080/admin/routes)
+* **URL**: [http://localhost:8087/admin/routes](http://localhost:8087/admin/routes)
 * **Features**:
 
   * View all configured routes
@@ -23,7 +23,7 @@ The application has been successfully created and is now running!
 
 ### REST API
 
-* **Base URL**: [http://localhost:8080/api/routes](http://localhost:8080/api/routes)
+* **Base URL**: [http://localhost:8087/api/routes](http://localhost:8087/api/routes)
 * **Endpoints**:
 
   * `GET /api/routes` - List all routes
@@ -34,7 +34,7 @@ The application has been successfully created and is now running!
 
 ### Gateway Actuator
 
-* **URL**: [http://localhost:8080/actuator/gateway/routes](http://localhost:8080/actuator/gateway/routes)
+* **URL**: [http://localhost:8087/actuator/gateway/routes](http://localhost:8087/actuator/gateway/routes)
 * View all active gateway routes in JSON format
 
 ## 📝 Configuration Methods
@@ -58,7 +58,7 @@ spring:
 
 ### Method 2: Web UI (Dynamic)
 
-1. Open [http://localhost:8080/admin/routes](http://localhost:8080/admin/routes)
+1. Open [http://localhost:8087/admin/routes](http://localhost:8087/admin/routes)
 2. Click "Create New Route"
 3. Fill in the form:
 
@@ -72,7 +72,7 @@ spring:
 
 ### Using the Web UI:
 
-1. Navigate to [http://localhost:8080/admin/routes](http://localhost:8080/admin/routes)
+1. Navigate to [http://localhost:8087/admin/routes](http://localhost:8087/admin/routes)
 2. Click "➕ Create New Route"
 3. Enter:
 
@@ -92,7 +92,7 @@ spring:
 ### Test the Route:
 
 ```bash
-curl http://localhost:8080/test/get
+curl http://localhost:8087/test/get
 ```
 
 This will forward to `https://httpbin.org/get`
@@ -203,13 +203,13 @@ server:
 1. Check route configuration in web UI
 2. Verify target service is running
 3. Check logs: `mvn spring-boot:run`
-4. View active routes: [http://localhost:8080/actuator/gateway/routes](http://localhost:8080/actuator/gateway/routes)
+4. View active routes: [http://localhost:8087/actuator/gateway/routes](http://localhost:8087/actuator/gateway/routes)
 
 ### Web UI Not Loading
 
 1. Ensure application is running
-2. Check port 8080 is accessible
-3. Try: [http://localhost:8080/admin/routes](http://localhost:8080/admin/routes)
+2. Check port 8087 is accessible
+3. Try: [http://localhost:8087/admin/routes](http://localhost:8087/admin/routes)
 
 ## 📖 Documentation
 
@@ -220,7 +220,7 @@ server:
 ## 🎉 Next Steps
 
 1. ✅ Application is running
-2. ✅ Access web UI: [http://localhost:8080/admin/routes](http://localhost:8080/admin/routes)
+2. ✅ Access web UI: [http://localhost:8087/admin/routes](http://localhost:8087/admin/routes)
 3. ✅ Create your first route
 4. ✅ Test the route
 5. ✅ Explore REST API

@@ -251,21 +251,21 @@ spring:
 
 ```bash
 # Test a simple route
-curl http://localhost:8080/api/users
+curl http://localhost:8087/api/users
 
 # Test with specific method
-curl -X POST http://localhost:8080/api/orders
+curl -X POST http://localhost:8087/api/orders
 
 # Test with headers
-curl -H "X-API-Version: v2" http://localhost:8080/api/data
+curl -H "X-API-Version: v2" http://localhost:8087/api/data
 
 # Test with authentication
-curl -H "Authorization: Bearer token123" http://localhost:8080/api/payments
+curl -H "Authorization: Bearer token123" http://localhost:8087/api/payments
 ```
 
 ### Using the Web UI
 
-1. Navigate to `http://localhost:8080/admin/routes`
+1. Navigate to `http://localhost:8087/admin/routes`
 2. Click "Create New Route"
 3. Fill in the form with your configuration
 4. Click "Create Route"
@@ -275,13 +275,13 @@ curl -H "Authorization: Bearer token123" http://localhost:8080/api/payments
 
 ```bash
 # Via Actuator endpoint
-curl http://localhost:8080/actuator/gateway/routes
+curl http://localhost:8087/actuator/gateway/routes
 
 # Via REST API
-curl http://localhost:8080/api/routes
+curl http://localhost:8087/api/routes
 
 # Via Web UI
-# Navigate to http://localhost:8080/admin/routes
+# Navigate to http://localhost:8087/admin/routes
 ```
 
 ## Tips for Web UI Configuration
