@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Route Creator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/routes.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>Simple Route Creating Form</h1>
+                    <p class="subtitle">Enterprise Security Management Console | Version 1.0</p>
+                </div>
+                <form th:action="@{/logout}" method="post" style="margin: 0;">
+                    <button type="submit" class="btn btn-secondary" style="font-size: 0.85em; padding: 8px 16px;">Logout</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <!-- Left Column: Form -->
+            <div class="form-card">
+
+                <form action="/admin/routes/simple-save" method="post" th:action="@{/admin/routes/simple-save}">
+                <div class="form-group">
+                    <label for="routeId">Route Name <span class="required">*</span></label>
+                    <input type="text" id="routeId" name="routeId" 
+                           placeholder="e.g., my-api-route" required />
+                    <div class="help-text">A unique name for this route</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="targetUri">Target Server <span class="required">*</span></label>
+                    <input type="text" id="targetUri" name="targetUri" 
+                           placeholder="e.g., http://192.168.0.188:8000" required />
+                    <div class="help-text">The backend server URL</div>
+                    <!-- <div class="example">Example: http://192.168.0.188:8000</div> -->
+                </div>
+
+                <div class="section-title">Path Mapping</div>
+
+                <div class="form-group">
+                    <label for="incomingPath">Incoming Path <span class="required">*</span></label>
+                    <input type="text" id="incomingPath" name="incomingPath" 
+                           placeholder="e.g., /ye" required />
+                    <!-- <div class="help-text">The path users will access on your gateway</div> -->
+                    <!-- <div class="example">Example: /ye → Users access: http://localhost:8087/ye/...</div> -->
+                </div>
+
+                <div class="form-group">
+                    <label for="rewriteType">Path Rewrite Type <span class="required">*</span></label>
+                    <select id="rewriteType" name="rewriteType" onchange="toggleRewriteOptions()" required>
+                        <option value="strip">Strip Prefix (Remove incoming path)</option>
+                        <option value="rewrite">Rewrite Path (Change to different path)</option>
+                        <option value="none">No Change (Keep same path)</option>
+                    </select>
+                </div>
+
+                <div id="rewriteOptions" style="display: none;">
+                    <div class="form-group">
+                        <label for="targetPath">Target Path</label>
+                        <input type="text" id="targetPath" name="targetPath" 
+                               placeholder="e.g., /api" />
+                        <div class="help-text">The path on the target server</div>
+                        <!-- <div class="example">Example: /api → Forwards to: http://192.168.0.188:8000/api/...</div> -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" 
+                              placeholder="Optional description of what this route does"></textarea>
+                </div>
+
+                <!-- <div class="section-title">Example</div>
+                <div class="example" id="exampleText">
+                    Request: http://localhost:8087/ye/token<br>
+                    Forwards to: http://192.168.0.188:8000/token
+                </div> -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Create Route</button>
+                    <a href="/admin/routes" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Right Column: Information Panel -->
+        <div class="info-panel">
+            <h3>Configuration Guide</h3>
+            
+            <!-- <div class="info-section">
+                <h4>Current Configuration</h4>
+                <p>Gateway Port: <strong>8087</strong></p>
+                <p>Status: <strong>ACTIVE</strong></p>
+                <p>Security: <strong>ENABLED</strong></p>
+            </div> -->
+
+            <div class="info-section">
+                <h4>Route Example</h4>
+                <p>Input Path:</p>
+                <code>/ye/token</code>
+                <p style="margin-top: 12px;">Forwards To:</p>
+                <code>http://192.168.0.188:8000/api/token</code>
+            </div>
+
+            <div class="info-section">
+                <h4>Path Rewrite Options</h4>
+                <p><strong>Strip Prefix:</strong> Removes the incoming path segment</p>
+                <p><strong>Rewrite Path:</strong> Changes path to a different endpoint</p>
+                <p><strong>No Change:</strong> Keeps the original path</p>
+            </div>
+
+            <div class="security-notice">
+                <h4>SECURITY GUIDELINES</h4>
+                <ul>
+                    <li>Verify target server accessibility</li>
+                    <li>Use HTTPS for production environments</li>
+                    <li>Implement rate limiting for public routes</li>
+                    <li>Monitor gateway logs regularly</li>
+                    <li>Apply authentication filters when needed</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/routes-form.js}"></script>
+  
+</body>
+</html>

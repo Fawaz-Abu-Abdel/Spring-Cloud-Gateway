@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit ? 'Edit Route' : 'Create New Route'}">Route Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/routes.css}">
+</head>
+<body>
+    <div class="container">
+        <!-- <div class="header">
+            <h1 th:text="${isEdit ? '✏️ Edit Route' : '➕ Create New Route'}">Route Form</h1>
+        </div> -->
+
+        <div class="header">
+            <h1>Advance Route Creating Form</h1>
+            <p class="subtitle">Enterprise Security Management Console | Version 1.0</p>
+        </div>
+
+
+        <div class="form-card">
+            <!-- <div th:if="${error}" class="alert alert-error" th:text="${error}"></div> -->
+
+            <form th:action="@{/admin/routes/save}" th:object="${route}" method="post">
+                <input type="hidden" name="isEdit" th:value="${isEdit}" />
+
+                <div class="form-group">
+                    <label for="id">Route ID <span class="required">*</span></label>
+                    <input type="text" id="id" th:field="*{id}" 
+                           th:readonly="${isEdit}"
+                           placeholder="e.g., user-service-route" required />
+                    <div class="help-text">Unique identifier for this route</div>
+                    <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="uri">Target URI <span class="required">*</span></label>
+                    <input type="text" id="uri" th:field="*{uri}" 
+                           placeholder="e.g., http://localhost:8081 or lb://user-service" required />
+                    <div class="help-text">Destination URI (use lb:// for load-balanced services)</div>
+                    <div th:if="${#fields.hasErrors('uri')}" th:errors="*{uri}" class="error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" th:field="*{description}" 
+                              placeholder="Optional description of what this route does"></textarea>
+                    <div class="help-text">Optional description for documentation purposes</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="order">Order</label>
+                    <input type="number" id="order" th:field="*{order}" placeholder="0" />
+                    <div class="help-text">Route execution order (lower numbers = higher priority)</div>
+                </div>
+
+                <div class="section-title">Predicates</div>
+                <div class="help-text" style="margin-bottom: 15px;">
+                    Define conditions that must be met for this route to be matched. Common predicates: Path, Method, Header, Query, Host
+                </div>
+                
+                <div id="predicates-container">
+                    <div th:each="predicate, iterStat : *{predicates}" class="dynamic-item">
+                        <div class="dynamic-item-header">
+                            <span class="item-number" th:text="'Predicate ' + ${iterStat.index + 1}">Predicate 1</span>
+                            <button type="button" class="btn btn-danger btn-small" 
+                                    onclick="this.parentElement.parentElement.remove()">Remove</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Predicate Name</label>
+                            <input type="text" th:field="*{predicates[__${iterStat.index}__].name}" 
+                                   placeholder="e.g., Path, Method, Header" />
+                            <div class="help-text">Examples: Path, Method, Header, Query, Host, After, Before</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Arguments (key=value, one per line)</label>
+                            <textarea th:field="*{predicates[__${iterStat.index}__].args}" 
+                                      th:text="${@mapConverter.mapToString(route.predicates[__${iterStat.index}__].args)}"
+                                      placeholder="e.g., _genkey_0=/api/users/**"
+                                      style="min-height: 60px;"></textarea>
+                            <div class="help-text">Format: key=value (one per line). For Path use: _genkey_0=/path/**</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-success btn-small" onclick="addPredicate()">
+                    ➕ Add Predicate
+                </button>
+
+                <div class="section-title">Filters</div>
+                <div class="help-text" style="margin-bottom: 15px;">
+                    Apply transformations to requests/responses. Common filters: StripPrefix, AddRequestHeader, RewritePath, CircuitBreaker
+                </div>
+                
+                <div id="filters-container">
+                    <div th:each="filter, iterStat : *{filters}" class="dynamic-item">
+                        <div class="dynamic-item-header">
+                            <span class="item-number" th:text="'Filter ' + ${iterStat.index + 1}">Filter 1</span>
+                            <button type="button" class="btn btn-danger btn-small" 
+                                    onclick="this.parentElement.parentElement.remove()">Remove</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Filter Name</label>
+                            <input type="text" th:field="*{filters[__${iterStat.index}__].name}" 
+                                   placeholder="e.g., StripPrefix, AddRequestHeader" />
+                            <div class="help-text">Examples: StripPrefix, AddRequestHeader, RewritePath, CircuitBreaker</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Arguments (key=value, one per line)</label>
+                            <textarea th:field="*{filters[__${iterStat.index}__].args}" 
+                                      th:text="${@mapConverter.mapToString(route.filters[__${iterStat.index}__].args)}"
+                                      placeholder="e.g., _genkey_0=1"
+                                      style="min-height: 60px;"></textarea>
+                            <div class="help-text">Format: key=value (one per line). For StripPrefix use: _genkey_0=1</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-success btn-small" onclick="addFilter()">
+                    ➕ Add Filter
+                </button>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <span th:text="${isEdit ? '💾 Update Route' : '✅ Create Route'}">Save</span>
+                    </button>
+                    <a href="/admin/routes" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        let predicateIndex = /*[[${route.predicates.size()}]]*/ 0;
+        let filterIndex = /*[[${route.filters.size()}]]*/ 0;
+    </script>
+    <script th:src="@{/js/advanced-form.js}"></script>
+</body>
+</html>

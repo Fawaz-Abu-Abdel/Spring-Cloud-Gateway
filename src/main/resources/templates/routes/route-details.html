@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Route Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/routes.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1> <span th:text="${route.id}">Route Details</span></h1>
+            <p class="subtitle">Enterprise Security Management Console | Version 1.0</p>
+        </div>
+
+        <div class="detail-card">
+            <div class="detail-section">
+                <div class="section-title">Basic Information</div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Route ID:</div>
+                    <div class="detail-value" th:text="${route.id}">route-id</div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-label">Target URI:</div>
+                    <div class="detail-value" th:text="${route.uri}">http://example.com</div>
+                </div>
+
+                <div th:if="${route.description != null and !route.description.isEmpty()}" class="detail-row">
+                    <div class="detail-label">Description:</div>
+                    <div class="detail-value" th:text="${route.description}">Description</div>
+                </div>
+
+                <div th:if="${route.order != null}" class="detail-row">
+                    <div class="detail-label">Order:</div>
+                    <div class="detail-value" th:text="${route.order}">0</div>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <div class="section-title">Predicates</div>
+                
+                <div th:if="${route.predicates != null and !route.predicates.isEmpty()}">
+                    <div th:each="predicate, iterStat : ${route.predicates}" class="list-item">
+                        <div class="list-item-title" th:text="'Predicate ' + ${iterStat.index + 1} + ': ' + ${predicate.name}">
+                            Predicate: Path
+                        </div>
+                        <div th:if="${predicate.args != null and !predicate.args.isEmpty()}">
+                            <div th:each="arg : ${predicate.args}" class="arg-item">
+                                <span class="arg-key" th:text="${arg.key}">key</span>
+                                <span> = </span>
+                                <span class="arg-value" th:text="${arg.value}">value</span>
+                            </div>
+                        </div>
+                        <div th:if="${predicate.args == null or predicate.args.isEmpty()}" class="empty-state">
+                            No arguments
+                        </div>
+                    </div>
+                </div>
+                
+                <div th:if="${route.predicates == null or route.predicates.isEmpty()}" class="empty-state">
+                    No predicates configured
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <div class="section-title">Filters</div>
+                
+                <div th:if="${route.filters != null and !route.filters.isEmpty()}">
+                    <div th:each="filter, iterStat : ${route.filters}" class="list-item">
+                        <div class="list-item-title" th:text="'Filter ' + ${iterStat.index + 1} + ': ' + ${filter.name}">
+                            Filter: StripPrefix
+                        </div>
+                        <div th:if="${filter.args != null and !filter.args.isEmpty()}">
+                            <div th:each="arg : ${filter.args}" class="arg-item">
+                                <span class="arg-key" th:text="${arg.key}">key</span>
+                                <span> = </span>
+                                <span class="arg-value" th:text="${arg.value}">value</span>
+                            </div>
+                        </div>
+                        <div th:if="${filter.args == null or filter.args.isEmpty()}" class="empty-state">
+                            No arguments
+                        </div>
+                    </div>
+                </div>
+                
+                <div th:if="${route.filters == null or route.filters.isEmpty()}" class="empty-state">
+                    No filters configured
+                </div>
+            </div>
+
+            <div class="actions">
+                <a th:href="@{/admin/routes/edit/{id}(id=${route.id})}" class="btn btn-primary">Edit Route</a>
+                <a href="/admin/routes" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
